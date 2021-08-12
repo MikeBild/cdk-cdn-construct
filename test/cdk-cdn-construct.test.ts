@@ -5,7 +5,7 @@ import { CdkCdnConstructStack } from '../lib/cdk-cdn-construct-stack';
 test.skip('Empty Stack', () => {
   const app = new App();
 
-  const stack = new CdkCdnConstructStack(app, 'MyTestStack', { namespace: 'test' });
+  const stack = new CdkCdnConstructStack(app, 'MyTestStack', { namespace: 'test', domainName: 'demo', websiteDistSourcePath: 'demo' });
 
   expectCDK(stack).to(
     matchTemplate(

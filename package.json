@@ -28,12 +28,14 @@
     "aws-cdk": "1.118.0"
   },
   "dependencies": {
+    "@aws-cdk/aws-certificatemanager": "1.118.0",
+    "@aws-cdk/aws-cloudfront": "1.118.0",
+    "@aws-cdk/aws-route53": "1.118.0",
+    "@aws-cdk/aws-route53-targets": "1.118.0",
+    "@aws-cdk/aws-s3": "1.118.0",
+    "@aws-cdk/aws-s3-deployment": "1.118.0"
   },
   "peerDependencies": {
-    "@aws-cdk/core": "1.118.0",
-    "@aws-cdk/aws-appsync": "1.118.0",
-    "@aws-cdk/aws-cloudfront": "1.118.0",
-    "@aws-cdk/aws-lambda": "1.118.0",
-    "@aws-cdk/aws-s3": "1.118.0"
+    "@aws-cdk/core": "1.118.0"
   }
 }

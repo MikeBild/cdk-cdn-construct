@@ -4,10 +4,9 @@
 
 This project tries to implement a simple way to deploy static web content like Single-Page-Applications (SPA) or Static-Websites into the cloud using a AWS S3 bucket and a distribute it via a CDN using AWS CloudFront.
 
-
 ## Intention and conceptual background
 
-Reusable application blocks are already commonplace in many areas of software development. (e.g. UI-Libraries, NPM-Modules, etc.) Only with reusable modules/components is it really possible to beeing productive in application development. But at the moment you still need a lot of special cloud know-how to be able to use the Serverless-Cloud architecture effectively in your own project. This project tries to establish a complete and reusable Serverless-Application-Blocks (also called cloud modules) which you can easily integrate, deploy and use in your own application stack using the AWS-CDK. 
+Reusable application blocks are already commonplace in many areas of software development. (e.g. UI-Libraries, NPM-Modules, etc.) Only with reusable modules/components is it really possible to beeing productive in application development. But at the moment you still need a lot of special cloud know-how to be able to use the Serverless-Cloud architecture effectively in your own project. This project tries to establish a complete and reusable Serverless-Application-Blocks (also called cloud modules) which you can easily integrate, deploy and use in your own application stack using the AWS-CDK.
 
 ## Architecture and implementation
 
@@ -51,4 +50,4 @@ TBD
 
 ## Open tasks / issues
 
-- [ ] publish to NPM 
+- [ ] publish to NPM
