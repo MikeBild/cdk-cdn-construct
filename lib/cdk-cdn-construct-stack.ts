@@ -24,6 +24,7 @@ export class CdkCdnConstructStack extends Stack {
       websiteErrorDocument: 'index.html',
       bucketName: `${namespace}.${domainName}`,
       removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     });
 
     const originAccessIdentity = new OriginAccessIdentity(this, `${namespace}-OriginAccessIdentity`);
