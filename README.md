@@ -38,16 +38,30 @@ TBD
 
 ## Setup
 
-`yarn`
+`npm install cdk-cdn-construct`
 
-## Examples
+## CLI Configuration
 
-TBD
+Create a **.env** file like:
+
+```
+CDK_DEFAULT_REGION=eu-central-1
+CDK_DEFAULT_ACCOUNT=default
+CDK_CDN_NAME=your-host-and-bucket-name
+CDK_CDN_PATH=./build
+CDK_CDN_DOMAIN=example.com
+```
+
+Add this line to your **package.json**:
+
+```json
+{
+  "scripts": {
+    "deploy": "export $(cat .env | xargs) && cdk deploy --all --require-approval never --app cdk-cdn-construct"
+  }
+}
+```
 
 **Deploy the examples using AWS-Vault**
 
 `aws-vault exec <your-profile-name> --no-session -- yarn deploy`
-
-## Open tasks / issues
-
-- [x] publish to NPM
