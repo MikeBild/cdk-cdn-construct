@@ -9,33 +9,39 @@ import { HostedZone } from '@aws-cdk/aws-route53';
 
 interface CdkCdnConstructProps {
   namespace: string;
+  bucketName?: string;
   websiteDistSourcePath: string;
   domainName: string;
 }
 
 export class CdkCdnConstructStack extends Stack {
+  public readonly bktName: string;
+  public readonly contentBucket: Bucket;
+
   constructor(scope: Construct, id: string, props: CdkCdnConstructProps & StackProps) {
     super(scope, id, props);
 
-    const { namespace, domainName, websiteDistSourcePath } = props;
+    const { namespace, domainName, websiteDistSourcePath, bucketName } = props;
 
-    const sourceBucket = new Bucket(this, `${namespace}-Bucket-WebApp`, {
+    this.bktName = bucketName || namespace;
+
+    this.contentBucket = new Bucket(this, `${namespace}-Bucket-WebApp`, {
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html',
-      bucketName: `${namespace}.${domainName}`,
+      bucketName: `${this.bktName}.${domainName}`,
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     });
 
     const originAccessIdentity = new OriginAccessIdentity(this, `${namespace}-OriginAccessIdentity`);
-    sourceBucket.grantRead(originAccessIdentity);
+    this.contentBucket.grantRead(originAccessIdentity);
 
     const zone = HostedZone.fromLookup(this, `${namespace}-BaseZone`, {
       domainName,
     });
 
     const certificate = new DnsValidatedCertificate(this, `${namespace}-CloudFrontWebCertificate`, {
-      domainName: `${namespace}.${domainName}`,
+      domainName: `${this.bktName}.${domainName}`,
       hostedZone: zone,
       region: 'us-east-1',
     });
@@ -44,7 +50,7 @@ export class CdkCdnConstructStack extends Stack {
       originConfigs: [
         {
           s3OriginSource: {
-            s3BucketSource: sourceBucket,
+            s3BucketSource: this.contentBucket,
             originAccessIdentity: originAccessIdentity,
           },
           behaviors: [
@@ -60,7 +66,7 @@ export class CdkCdnConstructStack extends Stack {
       ],
       aliasConfiguration: {
         acmCertRef: certificate.certificateArn,
-        names: [`${namespace}.${domainName}`],
+        names: [`${this.bktName}.${domainName}`],
       },
       errorConfigurations: [
         {
@@ -73,14 +79,15 @@ export class CdkCdnConstructStack extends Stack {
 
     new BucketDeployment(this, `${namespace}-BucketDeployment`, {
       sources: [Source.asset(websiteDistSourcePath)],
-      destinationBucket: sourceBucket,
+      destinationBucket: this.contentBucket,
       distribution,
       distributionPaths: ['/*'],
+      retainOnDelete: false,
     });
 
     new ARecord(this, `${namespace}-AliasRecord`, {
       zone,
-      recordName: `${namespace}.${domainName}`,
+      recordName: `${this.bktName}.${domainName}`,
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
     });
   }

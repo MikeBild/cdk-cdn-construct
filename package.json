@@ -1,7 +1,6 @@
 {
   "name": "cdk-cdn-construct",
-  "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "bin": {
     "cdk-cdn-construct": "bin/cdk-cdn-construct.js"
   },
