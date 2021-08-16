@@ -50,4 +50,4 @@ TBD
 
 ## Open tasks / issues
 
-- [ ] publish to NPM
+- [x] publish to NPM
